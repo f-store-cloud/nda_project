@@ -1,0 +1,8 @@
+{
+  "name": "NDA Project",
+  "short_name": "NDA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}
