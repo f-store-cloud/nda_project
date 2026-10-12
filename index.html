@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Notre Dame des Anges - Système d'Inscription</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans pb-16">
+
+    <header class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="https://i.ibb.co/yBPPFNP7/file-000000008928820eaa0850cbadfba252.png" alt="Logo CS Notre Dame des Anges" class="w-12 h-12 object-cover rounded-xl bg-white p-0.5 shadow-md shrink-0">
+                <div>
+                    <h1 class="font-extrabold text-sm leading-tight tracking-wide">CS NOTRE DAME DES ANGES - KIN</h1>
+                    <p class="text-[11px] text-blue-200">Commune de Kasa-Vubu • Kinshasa RDC</p>
+                </div>
+            </div>
+            <button onclick="toggleView('form')" id="navBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+                <span>+ Inscription</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-4">
+
+        <div id="dashboardView" class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200">
+                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Inscrits</p>
+                    <p id="totalInscrits" class="text-2xl font-black text-blue-600 mt-0.5">0</p>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200">
+                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Garçons / Filles</p>
+                    <p id="statsSexe" class="text-lg font-black text-indigo-600 mt-1">0 G / 0 F</p>
+                </div>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Caisse Totale ($)</p>
+                <p id="totalCaisse" class="text-2xl font-black text-emerald-600 mt-0.5">0 $</p>
+            </div>
+
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2">
+                <input type="text" id="searchInput" oninput="renderList()" placeholder="Rechercher un élève..." class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-slate-500">Élèves Enregistrés</h2>
+                    <span id="badgeCount" class="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="elevesContainer" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-400 text-center py-6">Aucun élève inscrit pour le moment.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="formView" class="hidden bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h2 class="font-bold text-sm text-slate-800">Fiche d'Inscription Officielle</h2>
+                <button onclick="toggleView('dashboard')" class="text-xs text-rose-500 font-bold px-2 py-1 bg-rose-50 rounded-lg">✕ Annuler</button>
+            </div>
+
+            <form id="enrollmentForm" class="space-y-3.5 text-xs">
+                <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300">
+                    <div id="photoPreview" class="w-14 h-14 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 overflow-hidden shrink-0">
+                        📷
+                    </div>
+                    <div class="space-y-1 w-full">
+                        <label class="block font-semibold text-slate-700">Photo d'identité (Passport)</label>
+                        <input type="file" id="photoInput" accept="image/*" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Nom *</label>
+                        <input type="text" id="nom" required class="w-full p-2 border border-slate-200 rounded-xl uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Postnom *</label>
+                        <input type="text" id="postnom" required class="w-full p-2 border border-slate-200 rounded-xl uppercase">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-medium text-slate-600 mb-1">Prénom *</label>
+                    <input type="text" id="prenom" required class="w-full p-2 border border-slate-200 rounded-xl">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Sexe *</label>
+                        <select id="sexe" required class="w-full p-2 border border-slate-200 rounded-xl bg-white">
+                            <option value="M">Masculin (M)</option>
+                            <option value="F">Féminin (F)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Téléphone Tuteur *</label>
+                        <input type="tel" id="telephone" required placeholder="+243..." class="w-full p-2 border border-slate-200 rounded-xl">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-medium text-slate-600 mb-1">Adresse / Domicile *</label>
+                    <input type="text" id="adresse" required placeholder="Ex: Av. Kasa-Vubu n°12" class="w-full p-2 border border-slate-200 rounded-xl">
+                </div>
+
+                <div class="space-y-2 pt-2 border-t border-slate-100">
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Cycle d'Études *</label>
+                        <select id="cycle" onchange="updateClasses()" required class="w-full p-2 border border-slate-200 rounded-xl bg-white font-bold text-blue-700">
+                            <option value="Maternelle">Maternelle</option>
+                            <option value="Primaire">Primaire</option>
+                            <option value="Secondaire">Secondaire (7ème & 8ème EB)</option>
+                            <option value="Humanites">Humanités</option>
+                        </select>
+                    </div>
+
+                    <div id="optionContainer" class="hidden">
+                        <label class="block font-medium text-slate-600 mb-1">Option d'Études *</label>
+                        <select id="optionEtude" onchange="updateHumaniteClasses()" class="w-full p-2 border border-slate-200 rounded-xl bg-white">
+                            <option value="Scientifique">Scientifique (Biologie-Chimie)</option>
+                            <option value="Litteraire">Littéraire (Latin-Phylo)</option>
+                            <option value="Electricite">Électricité</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-medium text-slate-600 mb-1">Classe Précise *</label>
+                        <select id="classe" required class="w-full p-2 border border-slate-200 rounded-xl bg-white font-semibold"></select>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100">
+                    <label class="block font-medium text-slate-600 mb-1">Frais d'inscription / Minerval ($) *</label>
+                    <input type="number" id="frais" required placeholder="Ex: 50" class="w-full p-2 border border-slate-200 rounded-xl font-bold text-emerald-600">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold p-3 rounded-xl shadow transition mt-2">
+                    Enregistrer l'inscription
+                </button>
+            </form>
+        </div>
+
+    </main>
+    
+     <script>
+        let eleves = JSON.parse(localStorage.getItem('cnda_eleves')) || [];
+        let photoBase64 = "";
+
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    photoBase64 = reader.result;
+                    document.getElementById('photoPreview').innerHTML = `<img src="${photoBase64}" class="w-full h-full object-cover">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function updateClasses() {
+            const cycle = document.getElementById('cycle').value;
+            const optionDiv = document.getElementById('optionContainer');
+            const classeSelect = document.getElementById('classe');
+            classeSelect.innerHTML = "";
+
+            if (cycle === 'Maternelle') {
+                optionDiv.classList.add('hidden');
+                ['1ère Maternelle', '2ème Maternelle', '3ème Maternelle'].forEach(c => {
+                    classeSelect.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            } else if (cycle === 'Primaire') {
+                optionDiv.classList.add('hidden');
+                ['1ère Année Primaire', '2ème Année Primaire', '3ème Année Primaire', '4ème Année Primaire', '5ème Année Primaire', '6ème Année Primaire'].forEach(c => {
+                    classeSelect.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            } else if (cycle === 'Secondaire') {
+                optionDiv.classList.add('hidden');
+                ['7ème Éducation de Base (EB)', '8ème Éducation de Base (EB)'].forEach(c => {
+                    classeSelect.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            } else if (cycle === 'Humanites') {
+                optionDiv.classList.remove('hidden');
+                updateHumaniteClasses();
+            }
+        }
+
+        function updateHumaniteClasses() {
+            const opt = document.getElementById('optionEtude').value;
+            const classeSelect = document.getElementById('classe');
+            classeSelect.innerHTML = "";
+
+            if (opt === 'Electricite') {
+                classeSelect.innerHTML += `<option value="1ère Humanités - Électricité">1ère Humanités - Électricité</option>`;
+            } else {
+                const nomOpt = opt === 'Scientifique' ? 'Scientifique (Bio-Chimie)' : 'Littéraire (Latin-Phylo)';
+                ['1ère Humanités', '2ème Humanités', '3ème Humanités', '4ème Humanités'].forEach(niv => {
+                    classeSelect.innerHTML += `<option value="${niv} - ${nomOpt}">${niv} - ${nomOpt}</option>`;
+                });
+            }
+        }
+
+        function toggleView(view) {
+            const dash = document.getElementById('dashboardView');
+            const form = document.getElementById('formView');
+            const btn = document.getElementById('navBtn');
+
+            if (view === 'form') {
+                dash.classList.add('hidden');
+                form.classList.remove('hidden');
+                btn.classList.add('hidden');
+                updateClasses();
+            } else {
+                dash.classList.remove('hidden');
+                form.classList.add('hidden');
+                btn.classList.remove('hidden');
+                renderList();
+            }
+        }
+
+        document.getElementById('enrollmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nouvelEleve = {
+                id: Date.now(),
+                nom: document.getElementById('nom').value.toUpperCase(),
+                postnom: document.getElementById('postnom').value.toUpperCase(),
+                prenom: document.getElementById('prenom').value,
+                sexe: document.getElementById('sexe').value,
+                telephone: document.getElementById('telephone').value,
+                adresse: document.getElementById('adresse').value,
+                cycle: document.getElementById('cycle').value,
+                classe: document.getElementById('classe').value,
+                frais: document.getElementById('frais').value || "0",
+                photo: photoBase64 || "https://i.ibb.co/yBPPFNP7/file-000000008928820eaa0850cbadfba252.png",
+                date: new Date().toLocaleDateString()
+            };
+
+            eleves.unshift(nouvelEleve);
+            localStorage.setItem('cnda_eleves', JSON.stringify(eleves));
+            this.reset();
+            photoBase64 = "";
+            document.getElementById('photoPreview').innerHTML = '📷';
+            toggleView('dashboard');
+        });
+
+        function renderList() {
+            const container = document.getElementById('elevesContainer');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            container.innerHTML = "";
+
+            let totalG = 0, totalF = 0, totalCash = 0;
+            eleves.forEach(el => {
+                if(el.sexe === 'M') totalG++; else totalF++;
+                totalCash += Number(el.frais || 0);
+            });
+
+            document.getElementById('totalInscrits').textContent = eleves.length;
+            document.getElementById('statsSexe').textContent = `${totalG} G / ${totalF} F`;
+            document.getElementById('totalCaisse').textContent = totalCash + ' $';
+            document.getElementById('badgeCount').textContent = eleves.length;
+
+            const filtered = eleves.filter(el => 
+                el.nom.toLowerCase().includes(search) || 
+                el.postnom.toLowerCase().includes(search) || 
+                el.prenom.toLowerCase().includes(search) ||
+                el.classe.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 text-center py-6">Aucun élève trouvé.</p>';
+                return;
+            }
+
+            filtered.forEach(el => {
+                const card = document.createElement('div');
+                card.className = "flex items-center justify-between p-3 bg-slate-50 border border-slate-200/80 rounded-xl text-xs";
+                card.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <img src="${el.photo}" class="w-10 h-10 object-cover rounded-lg bg-white border border-slate-200 shrink-0">
+                        <div>
+                            <p class="font-bold text-slate-800">${el.nom} ${el.postnom} ${el.prenom}</p>
+                            <p class="text-[11px] text-blue-600 font-semibold">${el.classe} • <span class="text-emerald-600 font-bold">${el.frais} $</span></p>
+                            <p class="text-[10px] text-slate-400">${el.telephone} • ${el.adresse}</p>
+                        </div>
+                    </div>
+                    <button onclick="supprimerEleve(${el.id})" class="text-rose-400 hover:text-rose-600 p-1 font-bold">✕</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function supprimerEleve(id) {
+            if(confirm("Voulez-vous vraiment supprimer cet élève ?")) {
+                eleves = eleves.filter(e => e.id !== id);
+                localStorage.setItem('cnda_eleves', JSON.stringify(eleves));
+                renderList();
+            }
+        }
+
+        renderList();
+    </script>
+</body>
+</html>
